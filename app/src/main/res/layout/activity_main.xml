@@ -4,8 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/design_default_color_secondary_variant"
+    android:background="@mipmap/background_home"
     tools:context=".MainActivity">
+
+    <ImageButton
+        android:id="@+id/buttonCashOut"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+
+        android:background="@mipmap/cash_out"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/toHorlogeTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/black"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:textColor="@color/teal_700"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:text="+ 0H 0M"
+        app:layout_constraintEnd_toStartOf="@+id/image200M"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toEndOf="@+id/moneyEntry"
+        app:layout_constraintTop_toBottomOf="@+id/toHorlogeText"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/image100M"
@@ -57,17 +87,17 @@
         android:id="@+id/montant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="156dp"
+        android:layout_marginBottom="236dp"
         android:background="@color/cardview_dark_background"
         android:backgroundTint="@color/cardview_dark_background"
-        android:text="0"
         android:padding="5dp"
+        android:text="0"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.341"
+        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
@@ -76,12 +106,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="156dp"
-        android:text="Dinars"
+        android:layout_marginBottom="236dp"
         android:padding="5dp"
+        android:text="TND"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/montant"
         tools:ignore="MissingConstraints" />
@@ -93,25 +124,103 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="128dp"
         android:scaleType="fitXY"
+
         android:src="@mipmap/money_entry"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <TextClock
+        android:id="@+id/textClock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="364dp"
-        android:background="@color/cardview_dark_background"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="18dp"
+        android:layout_marginTop="224dp"
+        android:background="@color/black"
         android:padding="8dp"
+        android:textAlignment="center"
+        android:textColor="@color/teal_700"
+
+        android:textSize="18dp"
+
+        android:format24Hour="HH:mm:ss"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/image200M"
-        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toEndOf="@+id/moneyEntry"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/buttonConfig"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/technics"
+
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/fromHorlogeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Horloge"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textClock"
+        app:layout_constraintEnd_toStartOf="@+id/image200M"
+        app:layout_constraintStart_toEndOf="@+id/moneyEntry" />
+
+    <TextView
+        android:id="@+id/toHorlogeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Time Parking"
+        app:layout_constraintEnd_toStartOf="@+id/image500M"
+        app:layout_constraintStart_toEndOf="@+id/moneyEntry"
+        app:layout_constraintTop_toBottomOf="@+id/textClock" />
+
+    <TextView
+        android:id="@+id/textDisplay"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="Park App"
+        android:background="@color/black"
+        android:textColor="#FF1744"
+        android:textAlignment="gravity"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:fontFamily="monospace"
+        android:textSize="16dp"
+        android:padding="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/fromHorlogeText"
+        app:layout_constraintEnd_toStartOf="@+id/image100M"
+        app:layout_constraintStart_toEndOf="@+id/moneyEntry"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/buttonTicketOut"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="102dp"
+        android:background="@mipmap/ticketicon"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/image1000M"
+        app:layout_constraintHorizontal_bias="0.572"
+        app:layout_constraintStart_toEndOf="@+id/moneyEntry"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="1.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
