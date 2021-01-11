@@ -1,4 +1,4 @@
-package com.example.parkapp;
+package com.example.parkapp.utilities;
 
 import android.content.Context;
 import android.widget.Toast;

@@ -5,17 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.IOException;
+import com.example.parkapp.utilities.Message;
 
-import static android.text.TextUtils.concat;
+import java.io.IOException;
 
 public class AdminLogin extends AppCompatActivity implements View.OnClickListener {
 
@@ -85,215 +83,66 @@ public class AdminLogin extends AppCompatActivity implements View.OnClickListene
             case R.id.button0:
                 inputCode.setText(inputCode.getText().toString().concat("0"));
                 //playing button click sound  effect
-                if(mp.isPlaying())
-                {
-                    mp.stop();
-                }
+                playSoundEffect("buttonclick.mp3");
 
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("buttonclick.mp3");
-                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
 
             case R.id.button1:
                 inputCode.setText(inputCode.getText().toString().concat("1"));
                 //playing button click sound  effect
-                if(mp.isPlaying())
-                {
-                    mp.stop();
-                }
+                playSoundEffect("buttonclick.mp3");
 
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("buttonclick.mp3");
-                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
 
             case R.id.button2:
                 inputCode.setText(inputCode.getText().toString().concat("2"));
                 //playing button click sound  effect
-                if(mp.isPlaying())
-                {
-                    mp.stop();
-                }
+                playSoundEffect("buttonclick.mp3");
 
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("buttonclick.mp3");
-                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
             case R.id.button3:
                 inputCode.setText(inputCode.getText().toString().concat("3"));
                 //playing button click sound  effect
-                if(mp.isPlaying())
-                {
-                    mp.stop();
-                }
+                playSoundEffect("buttonclick.mp3");
 
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("buttonclick.mp3");
-                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
             case R.id.button4:
                 inputCode.setText(inputCode.getText().toString().concat("4"));
                 //playing button click sound  effect
-                if(mp.isPlaying())
-                {
-                    mp.stop();
-                }
+                playSoundEffect("buttonclick.mp3");
 
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("buttonclick.mp3");
-                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
             case R.id.button5:
                 inputCode.setText(inputCode.getText().toString().concat("5"));
                 //playing button click sound  effect
-                if(mp.isPlaying())
-                {
-                    mp.stop();
-                }
+                playSoundEffect("buttonclick.mp3");
 
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("buttonclick.mp3");
-                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
             case R.id.button6:
                 inputCode.setText(inputCode.getText().toString().concat("6"));
                 //playing button click sound  effect
-                if(mp.isPlaying())
-                {
-                    mp.stop();
-                }
+                playSoundEffect("buttonclick.mp3");
 
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("buttonclick.mp3");
-                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
             case R.id.button7:
                 inputCode.setText(inputCode.getText().toString().concat("7"));
                 //playing button click sound  effect
-                if(mp.isPlaying())
-                {
-                    mp.stop();
-                }
+                playSoundEffect("buttonclick.mp3");
 
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("buttonclick.mp3");
-                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
             case R.id.button8:
                 inputCode.setText(inputCode.getText().toString().concat("8"));
                 //playing button click sound  effect
-                if(mp.isPlaying())
-                {
-                    mp.stop();
-                }
+                playSoundEffect("buttonclick.mp3");
 
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("buttonclick.mp3");
-                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
 
             case R.id.button9:
                 inputCode.setText(inputCode.getText().toString().concat("9"));
                 //playing button click sound  effect
-                if(mp.isPlaying())
-                {
-                    mp.stop();
-                }
 
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("buttonclick.mp3");
-                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                playSoundEffect("buttonclick.mp3");
+
                 break;
 
             case R.id.buttonResetInput:
@@ -302,20 +151,17 @@ public class AdminLogin extends AppCompatActivity implements View.OnClickListene
             case R.id.buttonOk:
                 attempts=attempts+1;
                 if(inputCode.getText().toString().equals("24211273") ){
-                    Message.shortMessage(getApplication(),"Ok");
+                    Message.shortMessage(getApplication(),"Welcome Technician");
+                    playSoundEffect("electrical_door_open.mp3");
+
+
+                    Intent adminIntent=new Intent(AdminLogin.this,AdminManager.class);
+                    startActivity(adminIntent);
+                    finish();
+
                 }else if(attempts < 3 && !(inputCode.getText().toString().equals("24211273"))){
-                    try {
-                        mp.reset();
-                        AssetFileDescriptor afd;
-                        afd = getAssets().openFd("wrong_effect.mp3");
-                        mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                        mp.prepare();
-                        mp.start();
-                    } catch (IllegalStateException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    playSoundEffect("wrong_effect.mp3");
+
                     Message.shortMessage(getApplication(),"Wrong Security Code "+(3-attempts)+" attempts left");
 
                 }else if(attempts >= 3 && !(inputCode.getText().toString().equals("24211273"))){
@@ -356,23 +202,8 @@ public class AdminLogin extends AppCompatActivity implements View.OnClickListene
                     buttonCancel.setBackgroundColor(Color.RED);
 
                     //playing emergency alarm sound  effect
-                    if(mp.isPlaying())
-                    {
-                        mp.stop();
-                    }
+                    playSoundEffect("emergency_alarm.mp3");
 
-                    try {
-                        mp.reset();
-                        AssetFileDescriptor afd;
-                        afd = getAssets().openFd("emergency_alarm.mp3");
-                        mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                        mp.prepare();
-                        mp.start();
-                    } catch (IllegalStateException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
                 break;
 
@@ -382,6 +213,21 @@ public class AdminLogin extends AppCompatActivity implements View.OnClickListene
                 finish();
                 break;
 
+        }
+    }
+
+    public void playSoundEffect(String fileUrl){
+        try {
+            mp.reset();
+            AssetFileDescriptor afd;
+            afd = getAssets().openFd(fileUrl);
+            mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            mp.prepare();
+            mp.start();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

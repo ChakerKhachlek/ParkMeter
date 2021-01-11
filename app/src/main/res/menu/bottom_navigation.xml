@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_paper"
+        android:icon="@drawable/ic_tissue_paper"
+        android:title="Paper Coil"
+        />
+
+    <item
+        android:id="@+id/nav_statistics"
+        android:icon="@drawable/ic_analytics_icon"
+        android:title="Statistics"/>
+
+    <item
+        android:id="@+id/nav_history"
+        android:icon="@drawable/ic_history_icon"
+        android:title="History"/>
+
+
+</menu>

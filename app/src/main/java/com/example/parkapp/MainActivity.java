@@ -20,6 +20,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.parkapp.sqllite.DatabaseHandler;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     ImageButton buttonCashOut;
 
-    public static final String BOBINE_PREFERENCE = "bobinePreference";
+    public static final String STATUS_PREFERENCE = "bobinePreference";
     public static final String BOBINE_FIELD = "BOBINE";
     SharedPreferences sharedPreferences;
 
@@ -145,13 +147,17 @@ public class MainActivity extends AppCompatActivity {
                     String month=now.getMonthValue()+"";
                     if (month.length() ==1)
                     {
-                        month="0"+now.getHour();
+                        month="0"+now.getMonthValue();
+                    }else{
+
                     }
 
                     String day=now.getDayOfMonth()+"";
                     if (day.length() ==1)
                     {
                         day="0"+now.getDayOfMonth();
+                    }else{
+
                     }
 
                     String year=now.getYear()+"";
@@ -160,23 +166,29 @@ public class MainActivity extends AppCompatActivity {
                     if (hour.length() ==1)
                     {
                        hour="0"+now.getHour();
+                    }else{
+
                     }
 
                     String minute=now.getMinute()+"";
-                    if (hour.length() ==1)
+                    if (minute.length() ==1)
                     {
                         minute ="0"+now.getMinute();
+                    }else{
+
                     }
 
                     String second=now.getSecond()+"" ;
                     if (second.length() ==1)
                     {
                         second  ="0"+now.getSecond();
+                    }else{
+
                     }
 
-
-                    ticketIntent.putExtra("nowTime",month+"/"+day+"/"+year
-                    +"   "+hour+":"+minute+":"+second
+                    String nowTime=month+"/"+day+"/"+year
+                            +"   "+hour+":"+minute+":"+second;
+                    ticketIntent.putExtra("nowTime",nowTime
                     );
 
                     //passing to date
@@ -184,9 +196,9 @@ public class MainActivity extends AppCompatActivity {
                     LocalDateTime to=now.plusMinutes(montantTime);
 
                     String tmonth=to.getMonthValue()+"";
-                    if (month.length() ==1)
+                    if (tmonth.length() ==1)
                     {
-                        month="0"+to.getHour();
+                        tmonth="0"+to.getMonthValue();
                     }
 
                     String tday=now.getDayOfMonth()+"";
@@ -196,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     String tyear=to.getYear()+"";
-
 
 
                     String thour=to.getHour()+"";
@@ -216,9 +227,10 @@ public class MainActivity extends AppCompatActivity {
                     {
                        tsecond  ="0"+to.getSecond();
                     }
+                    String toTime=tmonth+"/"+tday+"/"+tyear
+                            +"   "+thour+":"+tminute+":"+tsecond;
 
-                    ticketIntent.putExtra("toTime",tmonth+"/"+tday+"/"+tyear
-                            +"   "+thour+":"+tminute+":"+tsecond);
+                    ticketIntent.putExtra("toTime",toTime);
 
                     //playing ticket printing sound effect
                     if(mp.isPlaying())
@@ -227,6 +239,12 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     playSoundEffect("ticketprintingsound.mp3");
+
+                    DatabaseHandler db = new
+                            DatabaseHandler(getApplicationContext());
+
+
+                    db.insert(nowTime,toTime,montant);
 
                     startActivity(ticketIntent);
                 }
@@ -237,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void bobineTicketOut(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(BOBINE_FIELD,sharedPreferences.getInt(BOBINE_FIELD, 0)-1);
+        editor.putInt(BOBINE_FIELD,sharedPreferences.getInt(BOBINE_FIELD, 0)-500);
         editor.commit();
     }
 
@@ -249,17 +267,18 @@ public class MainActivity extends AppCompatActivity {
         m200.setEnabled(false);
         m500.setEnabled(false);
         m1000.setEnabled(false);
+        playSoundEffect("wrong_effect.mp3");
 
     }
 
 
     public void checkBobine(){
 
-        sharedPreferences = getSharedPreferences(BOBINE_PREFERENCE, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(STATUS_PREFERENCE, Context.MODE_PRIVATE);
 
 
         if(sharedPreferences.getInt(BOBINE_FIELD, 0) == 0) {
-            textDisplay.setText("Bobine Empty");
+            textDisplay.setText("Paper Roll Empty");
 
             bobineEmptyBlock();
 
@@ -267,8 +286,14 @@ public class MainActivity extends AppCompatActivity {
         else
          {
             resetInput();
-            int bobine= sharedPreferences.getInt(BOBINE_FIELD, 0);
-            Message.shortMessage(getApplicationContext(), "bobine left "+bobine);
+             textDisplay.setText("Park App");
+             buttonTicketOut.setEnabled(true);
+             buttonCashOut.setEnabled(true);
+             m100.setEnabled(true);
+             m200.setEnabled(true);
+             m500.setEnabled(true);
+             m1000.setEnabled(true);
+
         }
     }
     public void playSoundEffect(String effectUrl){
@@ -313,8 +338,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            float xCoord = event.getX();
-            float yCoord = event.getY();
+
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
