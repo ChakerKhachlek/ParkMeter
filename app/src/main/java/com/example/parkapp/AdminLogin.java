@@ -304,7 +304,18 @@ public class AdminLogin extends AppCompatActivity implements View.OnClickListene
                 if(inputCode.getText().toString().equals("24211273") ){
                     Message.shortMessage(getApplication(),"Ok");
                 }else if(attempts < 3 && !(inputCode.getText().toString().equals("24211273"))){
-
+                    try {
+                        mp.reset();
+                        AssetFileDescriptor afd;
+                        afd = getAssets().openFd("wrong_effect.mp3");
+                        mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                        mp.prepare();
+                        mp.start();
+                    } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Message.shortMessage(getApplication(),"Wrong Security Code "+(3-attempts)+" attempts left");
 
                 }else if(attempts >= 3 && !(inputCode.getText().toString().equals("24211273"))){

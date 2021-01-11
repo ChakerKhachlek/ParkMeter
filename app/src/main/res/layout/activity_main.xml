@@ -222,5 +222,19 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="1.0" />
 
+    <TextView
+        android:id="@+id/countDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="0"
+        android:visibility="invisible"
+        android:background="@color/black"
+        android:padding="5dp"
+        android:textColor="#FF1744"
+        app:layout_constraintEnd_toStartOf="@+id/image200M"
+        app:layout_constraintStart_toEndOf="@+id/moneyEntry"
+        app:layout_constraintTop_toBottomOf="@+id/textDisplay" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

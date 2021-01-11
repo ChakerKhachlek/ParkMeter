@@ -4,33 +4,29 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
-import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.format.DateUtils;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
     final MediaPlayer mp = new MediaPlayer();
-    TextView toHorlogeTime,textDisplay;
+    TextView toHorlogeTime,textDisplay,countDown;
     ImageButton buttonConfig,buttonTicketOut;
     ImageView m100,m200,m500,m1000,moneyEntry;
     int selectedMontant;
@@ -39,11 +35,17 @@ public class MainActivity extends AppCompatActivity {
 
     ImageButton buttonCashOut;
 
+    public static final String BOBINE_PREFERENCE = "bobinePreference";
+    public static final String BOBINE_FIELD = "BOBINE";
+    SharedPreferences sharedPreferences;
+
+    CountDownTimer countDownTimer;
 
     @Override
     protected void onResume() {
         super.onResume();
         resetInput();
+        checkBobine();
     }
 
     @Override
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         montantTotalView =(TextView) findViewById(R.id.montant);
         toHorlogeTime =(TextView) findViewById(R.id.toHorlogeTime);
         textDisplay =(TextView) findViewById(R.id.textDisplay);
+        countDown =(TextView) findViewById(R.id.countDown);
 
 
         buttonConfig=(ImageButton) findViewById(R.id.buttonConfig);
@@ -81,9 +84,15 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View v) {
+                if(countDownTimer != null){
+                    countDownTimer.cancel();
+                }
+
+                countDown.setVisibility(View.INVISIBLE);
+
                 Intent intentConfig=new Intent(MainActivity.this,AdminLogin.class);
                 startActivity(intentConfig);
-                finish();
+
             }
         });
 
@@ -94,27 +103,14 @@ public class MainActivity extends AppCompatActivity {
                 if(montant != 0){
                     resetInput();
                     textDisplay.setText("Cash Out");
-
-                    //playing drop sound effect
-                    if(mp.isPlaying())
-                    {
-                        mp.stop();
+                    if(countDownTimer != null){
+                        countDownTimer.cancel();
                     }
-
-                    try {
-                        mp.reset();
-                        AssetFileDescriptor afd;
-                        afd = getAssets().openFd("moneyreturns.mp3");
-                        mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                        mp.prepare();
-                        mp.start();
-                    } catch (IllegalStateException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    countDown.setVisibility(View.INVISIBLE);
+                    returnMoney();
                 }else{
                     textDisplay.setText("Box Empty");
+                    playSoundEffect("wrong_effect.mp3");
                 }
 
             }
@@ -126,39 +122,60 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(montant < 1000){
                     textDisplay.setText("Minimaum 1000 TND");
+                    playSoundEffect("wrong_effect.mp3");
 
                 }else{
+                    if(countDownTimer != null){
+                        countDownTimer.cancel();
+                    }
+                    textDisplay.setText("Park App");
+                    countDown.setVisibility(View.INVISIBLE);
+
+                    bobineTicketOut();
+
                     Intent ticketIntent=new Intent(MainActivity.this,TicketPrint.class);
                     ticketIntent.putExtra("montant",String.format("%.3f", montant/1000)+" TND ");
 
 
+
                     //passing dates to ticket activity
+
                     LocalDateTime now = LocalDateTime.now();
-                    String hour;
-                    if (now.getHour() <10)
+
+                    String month=now.getMonthValue()+"";
+                    if (month.length() ==1)
+                    {
+                        month="0"+now.getHour();
+                    }
+
+                    String day=now.getDayOfMonth()+"";
+                    if (day.length() ==1)
+                    {
+                        day="0"+now.getDayOfMonth();
+                    }
+
+                    String year=now.getYear()+"";
+
+                    String hour=now.getHour()+"";
+                    if (hour.length() ==1)
                     {
                        hour="0"+now.getHour();
-                    }else{
-                        hour=now.getHour()+"";
                     }
-                    String minute;
-                    if (now.getMinute() <10)
+
+                    String minute=now.getMinute()+"";
+                    if (hour.length() ==1)
                     {
                         minute ="0"+now.getMinute();
-                    }else{
-                        minute =now.getHour()+"";
                     }
 
-                    String second ;
-                    if (now.getSecond() <10)
+                    String second=now.getSecond()+"" ;
+                    if (second.length() ==1)
                     {
                         second  ="0"+now.getSecond();
-                    }else{
-                        second  =now.getSecond()+"";
                     }
 
 
-                    ticketIntent.putExtra("nowTime",now.getMonthValue()+"/"+now.getDayOfMonth()+"/"+now.getYear()
+                    ticketIntent.putExtra("nowTime",month+"/"+day+"/"+year
                     +"   "+hour+":"+minute+":"+second
                     );
 
@@ -166,30 +183,41 @@ public class MainActivity extends AppCompatActivity {
                     int montantTime =(int) montant/10;
                     LocalDateTime to=now.plusMinutes(montantTime);
 
-                    String thour;
-                    if (to.getHour() <10)
+                    String tmonth=to.getMonthValue()+"";
+                    if (month.length() ==1)
+                    {
+                        month="0"+to.getHour();
+                    }
+
+                    String tday=now.getDayOfMonth()+"";
+                    if (tday.length() ==1)
+                    {
+                        tday="0"+to.getDayOfMonth();
+                    }
+
+                    String tyear=to.getYear()+"";
+
+
+
+                    String thour=to.getHour()+"";
+                    if (thour.length() ==1)
                     {
                         thour="0"+to.getHour();
-                    }else{
-                        thour=to.getHour()+"";
                     }
-                    String tminute;
-                    if (to.getMinute() <10)
+
+                    String tminute=to.getMinute()+"";
+                    if (tminute.length() == 1)
                     {
                         tminute ="0"+to.getMinute();
-                    }else{
-                        tminute =to.getHour()+"";
                     }
 
-                    String tsecond ;
-                    if (to.getSecond() <10)
+                    String tsecond =to.getSecond()+"" ;
+                    if (tsecond.length() == 1)
                     {
                        tsecond  ="0"+to.getSecond();
-                    }else{
-                        tsecond  =to.getSecond()+"";
                     }
 
-                    ticketIntent.putExtra("toTime",to.getMonthValue()+"/"+to.getDayOfMonth()+"/"+to.getYear()
+                    ticketIntent.putExtra("toTime",tmonth+"/"+tday+"/"+tyear
                             +"   "+thour+":"+tminute+":"+tsecond);
 
                     //playing ticket printing sound effect
@@ -198,25 +226,75 @@ public class MainActivity extends AppCompatActivity {
                         mp.stop();
                     }
 
-                    try {
-                        mp.reset();
-                        AssetFileDescriptor afd;
-                        afd = getAssets().openFd("ticketprintingsound.mp3");
-                        mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                        mp.prepare();
-                        mp.start();
-                    } catch (IllegalStateException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    playSoundEffect("ticketprintingsound.mp3");
+
                     startActivity(ticketIntent);
                 }
             }
         });
 
+    }
+
+    public void bobineTicketOut(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(BOBINE_FIELD,sharedPreferences.getInt(BOBINE_FIELD, 0)-1);
+        editor.commit();
+    }
+
+    public void bobineEmptyBlock(){
+        resetInput();
+        buttonTicketOut.setEnabled(false);
+        buttonCashOut.setEnabled(false);
+        m100.setEnabled(false);
+        m200.setEnabled(false);
+        m500.setEnabled(false);
+        m1000.setEnabled(false);
+
+    }
 
 
+    public void checkBobine(){
+
+        sharedPreferences = getSharedPreferences(BOBINE_PREFERENCE, Context.MODE_PRIVATE);
+
+
+        if(sharedPreferences.getInt(BOBINE_FIELD, 0) == 0) {
+            textDisplay.setText("Bobine Empty");
+
+            bobineEmptyBlock();
+
+        }
+        else
+         {
+            resetInput();
+            int bobine= sharedPreferences.getInt(BOBINE_FIELD, 0);
+            Message.shortMessage(getApplicationContext(), "bobine left "+bobine);
+        }
+    }
+    public void playSoundEffect(String effectUrl){
+        try {
+            mp.reset();
+            AssetFileDescriptor afd;
+            afd = getAssets().openFd(effectUrl);
+            mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            mp.prepare();
+            mp.start();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void returnMoney(){
+        textDisplay.setText("Cash Out");
+
+        //playing drop sound effect
+        if(mp.isPlaying())
+        {
+            mp.stop();
+        }
+        playSoundEffect("moneyreturns.mp3");
 
     }
 
@@ -224,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
                  montant=0;
                  toHorlogeTime.setText("+ 0H 0M");
                  montantTotalView.setText("0");
-                 textDisplay.setText("Display");
+
          }
 
     private final class ChoiceTouchListener implements View.OnTouchListener {
@@ -288,25 +366,32 @@ public class MainActivity extends AppCompatActivity {
                     {
                         mp.stop();
                     }
-
-                    try {
-                        mp.reset();
-                        AssetFileDescriptor afd;
-                        afd = getAssets().openFd("bagofcoins.mp3");
-                        mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                        mp.prepare();
-                        mp.start();
-                    } catch (IllegalStateException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    playSoundEffect("bagofcoins.mp3");
 
                     montant=montant+selectedMontant;
                     String montantEnDinar=String.format("%.3f", montant/1000);
                     montantTotalView.setText(montantEnDinar);
                     textDisplay.setText(selectedMontant+" TND Coin Inserted");
 
+
+                    countDown.setVisibility(View.VISIBLE);
+                    if(countDownTimer != null){
+                        countDownTimer.cancel();
+                    }
+                    countDownTimer = new CountDownTimer(10000, 1000) {
+
+                        public void onTick(long millisUntilFinished) {
+                            countDown.setText("" + millisUntilFinished / 1000);
+                            //here you can have your logic to set text to edittext
+                        }
+
+                        public void onFinish() {
+                            countDown.setVisibility(View.INVISIBLE);
+
+                            resetInput();
+                            returnMoney();
+                        }
+                    }.start();
 
 
                     break;
@@ -315,8 +400,14 @@ public class MainActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DRAG_ENDED:
                     View view = (View) event.getLocalState();
                     view.setVisibility(View.VISIBLE);
-                    int montantTime =(int) montant/10;
-                    toHorlogeTime.setText("+ "+montantTime/60+"H "+ montantTime%60 + "M");
+                    if(montant>=1000){
+                        int montantTime =(int) montant/10;
+                        toHorlogeTime.setText("+ "+montantTime/60+"H "+ montantTime%60 + "M");
+                    }
+
+
+
+
                     break;
 
 
