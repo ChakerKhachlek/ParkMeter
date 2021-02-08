@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Vibrator;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -140,6 +141,9 @@ public class PaperManagementFragment extends Fragment {
     }
 
     public void playSoundEffect(String effectUrl){
+        Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        v.vibrate(500);
         try {
             mp.reset();
             AssetFileDescriptor afd;

@@ -2,11 +2,13 @@ package com.example.parkapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -217,6 +219,9 @@ public class AdminLogin extends AppCompatActivity implements View.OnClickListene
     }
 
     public void playSoundEffect(String fileUrl){
+        Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 100 milliseconds
+        v.vibrate(100);
         try {
             mp.reset();
             AssetFileDescriptor afd;

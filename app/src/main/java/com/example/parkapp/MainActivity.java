@@ -12,6 +12,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -297,6 +298,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void playSoundEffect(String effectUrl){
+        Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        v.vibrate(500);
         try {
             mp.reset();
             AssetFileDescriptor afd;
